@@ -3,16 +3,18 @@ import { projects, ratingBand } from './data/projects'
 import Sidebar from './components/Sidebar'
 import TopBar from './components/TopBar'
 import KpiCards from './components/KpiCards'
+import NeedsAttention from './components/NeedsAttention'
 import FilterBar from './components/FilterBar'
 import Charts from './components/Charts'
 import ProjectTable from './components/ProjectTable'
 
 export default function App() {
-  const [search, setSearch]     = useState('')
-  const [type, setType]         = useState('All types')
-  const [country, setCountry]   = useState('All countries')
-  const [registry, setRegistry] = useState('All registries')
-  const [rating, setRating]     = useState('All ratings')
+  const [search, setSearch]         = useState('')
+  const [type, setType]             = useState('All types')
+  const [country, setCountry]       = useState('All countries')
+  const [registry, setRegistry]     = useState('All registries')
+  const [rating, setRating]         = useState('All ratings')
+  const [selectedId, setSelectedId] = useState(null)
 
   const filtered = useMemo(() => {
     return projects.filter(p => {
@@ -49,6 +51,7 @@ export default function App() {
       <main className="main-content">
         <TopBar onExport={handleExport} />
         <KpiCards />
+        <NeedsAttention projects={projects} onSelect={id => { setSelectedId(id); setSearch(''); setType('All types'); setCountry('All countries'); setRegistry('All registries'); setRating('All ratings') }} />
         <FilterBar
           search={search}   setSearch={setSearch}
           type={type}       setType={setType}
@@ -57,7 +60,7 @@ export default function App() {
           rating={rating}   setRating={setRating}
         />
         <Charts />
-        <ProjectTable projects={filtered} />
+        <ProjectTable projects={filtered} selectedId={selectedId} setSelectedId={setSelectedId} />
         <footer>
           <span>© 2026 CarbonAI. Internal use only.</span>
           <span><a href="#">carbonai.eco</a></span>

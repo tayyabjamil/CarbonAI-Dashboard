@@ -25,10 +25,9 @@ function RatingBadge({ rating }) {
   return <span className={cls}>{label} · {rating}</span>
 }
 
-export default function ProjectTable({ projects }) {
-  const [sortCol,    setSortCol]    = useState(null)
-  const [sortDir,    setSortDir]    = useState(1)
-  const [selectedId, setSelectedId] = useState(null)
+export default function ProjectTable({ projects, selectedId, setSelectedId }) {
+  const [sortCol, setSortCol] = useState(null)
+  const [sortDir, setSortDir] = useState(1)
 
   const sorted = sortCol
     ? [...projects].sort((a, b) => {

@@ -1,31 +1,5 @@
-/* Design token mirrors — keeps chart colours in sync with design-system.css */
-const T = {
-  navy:    '#2e7575',
-  teal:    '#397f86',
-  tealLt:  '#88b5bb',
-  amber:   '#e8a020',
-  amberLt: '#f0b840',
-  coral:   '#de7777',
-  muted:   '#c0c8cc',
-}
-
-/* Volume pre-computed from dataset: REDD+ 513k, ARR 99k, Mangrove 69k, Soil C 15k, Biochar 12k, DAC 6k */
-const volumeData = [
-  { label: 'REDD+',   pct: 100,  val: '513k tCO₂e', color: T.teal    },
-  { label: 'ARR',     pct: 19.4, val: '99k tCO₂e',  color: T.coral   },
-  { label: 'Mangrove',pct: 13.4, val: '69k tCO₂e',  color: T.navy    },
-  { label: 'Soil C',  pct: 3.0,  val: '15k tCO₂e',  color: T.tealLt  },
-  { label: 'Biochar', pct: 2.4,  val: '12k tCO₂e',  color: T.amber   },
-  { label: 'DAC',     pct: 1.2,  val: '6k tCO₂e',   color: T.amberLt },
-]
-
-/* Risk counts from ratingColor thresholds (≥80 low, ≥60 medium, <60 high): Low 5, Med 5, High 2, Unrated 2 */
-const riskData = [
-  { label: 'Low risk',    pct: 100, val: '5 projects', color: T.teal  },
-  { label: 'Medium risk', pct: 100, val: '5 projects', color: T.amber },
-  { label: 'High risk',   pct: 40,  val: '2 projects', color: T.coral },
-  { label: 'Unrated',     pct: 40,  val: '2 projects', color: T.muted },
-]
+import { useState } from 'react'
+import { useVolumeByType, useVolumeByRegistry, useRatingData } from '../hooks/useChartData'
 
 function HBarChart({ data }) {
   return (
@@ -43,16 +17,50 @@ function HBarChart({ data }) {
   )
 }
 
+function Toggle({ options, active, onChange }) {
+  return (
+    <div className="chart-toggle">
+      {options.map(opt => (
+        <button
+          key={opt.value}
+          className={`toggle-btn${active === opt.value ? ' active' : ''}`}
+          onClick={() => onChange(opt.value)}
+        >
+          {opt.label}
+        </button>
+      ))}
+    </div>
+  )
+}
+
 export default function Charts() {
+  const [volumeView, setVolumeView] = useState('type')
+
+  const volumeByType     = useVolumeByType()
+  const volumeByRegistry = useVolumeByRegistry()
+  const ratingData       = useRatingData()
+
+  const volumeData = volumeView === 'type' ? volumeByType : volumeByRegistry
+
   return (
     <div className="charts-row">
       <div className="chart-card">
-        <h3>Volume By Project Type</h3>
+        <div className="chart-card-header">
+          <h3>Volume by</h3>
+          <Toggle
+            options={[
+              { value: 'type',     label: 'Project Type' },
+              { value: 'registry', label: 'Registry'     },
+            ]}
+            active={volumeView}
+            onChange={setVolumeView}
+          />
+        </div>
         <HBarChart data={volumeData} />
       </div>
       <div className="chart-card">
-        <h3>Risk Rating Distribution</h3>
-        <HBarChart data={riskData} />
+        <h3>Rating Distribution</h3>
+        <HBarChart data={ratingData} />
       </div>
     </div>
   )
