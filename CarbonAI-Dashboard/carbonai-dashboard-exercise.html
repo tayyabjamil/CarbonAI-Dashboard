@@ -158,25 +158,13 @@
   .chart-card h3 { margin: 0 0 14px 0; font-size: 13px; }
   .chart-card.a h3 { text-transform: uppercase; letter-spacing: 0.5px; color: #666; }
   .chart-card.b h3 { color: #1a1a1a; }
-  .bars { display: flex; align-items: flex-end; gap: 10px; height: 140px; }
-  .bar { width: 34px; border-radius: 3px 3px 0 0; }
-  .bar-label { font-size: 9px; color: #999; text-align: center; margin-top: 6px; width: 34px; }
-  .bar-col { display: flex; flex-direction: column; align-items: center; }
-  .legend { display: flex; gap: 14px; margin-top: 16px; flex-wrap: wrap; }
-  .legend span { font-size: 10px; color: #666; }
-  .legend .dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 4px; }
-
-  .donut-wrap { display: flex; align-items: center; gap: 24px; }
-  .donut {
-    width: 130px; height: 130px; border-radius: 50%;
-    background: conic-gradient(#88b2b7 0% 38%, #e7a33c 38% 67%, #de7777 67% 100%);
-    position: relative;
-  }
-  .donut::after {
-    content: "";
-    position: absolute; top: 18px; left: 18px; width: 94px; height: 94px;
-    background: white; border-radius: 50%;
-  }
+  /* Horizontal bars: type labels scan naturally left-to-right; lengths compare more precisely than angles */
+  .h-bars { display: flex; flex-direction: column; gap: 11px; }
+  .h-bar-row { display: flex; align-items: center; gap: 10px; }
+  .h-bar-label { width: 76px; font-size: 11px; color: #555; text-align: right; flex-shrink: 0; white-space: nowrap; }
+  .h-bar-track { flex: 1; background: #f0f0f0; height: 18px; border-radius: 2px; overflow: hidden; }
+  .h-bar-fill { height: 100%; border-radius: 2px; min-width: 4px; }
+  .h-bar-val { width: 64px; font-size: 10px; color: #888; }
 
   /* ===== TABLE ===== */
   .table-section {
@@ -291,33 +279,75 @@
 </div>
 
 <div class="charts-row">
+
+  <!-- Horizontal bars: "Where is portfolio exposure concentrated?"
+       Labels scan left-to-right; sorted by volume so the dominant type (REDD+) leads.
+       Volumes computed from dataset: REDD+ 513k, ARR 99k, Mangrove 69k, Soil C 15k, Biochar 12k, DAC 6k. -->
   <div class="chart-card a">
     <h3>Volume By Project Type</h3>
-    <div class="bars">
-      <div class="bar-col"><div class="bar" style="height:120px; background:#397f86;"></div><div class="bar-label">REDD+</div></div>
-      <div class="bar-col"><div class="bar" style="height:85px; background:#de7777;"></div><div class="bar-label">ARR</div></div>
-      <div class="bar-col"><div class="bar" style="height:60px; background:#e7a33c;"></div><div class="bar-label">Biochar</div></div>
-      <div class="bar-col"><div class="bar" style="height:95px; background:#386694;"></div><div class="bar-label">Mangrove</div></div>
-      <div class="bar-col"><div class="bar" style="height:40px; background:#88b2b7;"></div><div class="bar-label">Soil C</div></div>
-      <div class="bar-col"><div class="bar" style="height:70px; background:#ffb547;"></div><div class="bar-label">DAC</div></div>
-    </div>
-    <div class="legend">
-      <span><span class="dot" style="background:#d7e5e7;"></span>Nature-based</span>
-      <span><span class="dot" style="background:#7a7876;"></span>Engineered removal</span>
-      <span><span class="dot" style="background:#afafaf;"></span>Avoidance</span>
-    </div>
-  </div>
-  <div class="chart-card b tall">
-    <h3>Risk rating distribution</h3>
-    <div class="donut-wrap">
-      <div class="donut"></div>
-      <div class="legend" style="flex-direction:column; gap:8px;">
-        <span><span class="dot" style="background:#397f86;"></span>Low risk</span>
-        <span><span class="dot" style="background:#ffb547;"></span>Medium risk</span>
-        <span><span class="dot" style="background:#7a7876;"></span>High risk</span>
+    <div class="h-bars">
+      <div class="h-bar-row">
+        <div class="h-bar-label">REDD+</div>
+        <div class="h-bar-track"><div class="h-bar-fill" style="width:100%; background:#397f86;"></div></div>
+        <div class="h-bar-val">513k tCO2e</div>
+      </div>
+      <div class="h-bar-row">
+        <div class="h-bar-label">ARR</div>
+        <div class="h-bar-track"><div class="h-bar-fill" style="width:19.4%; background:#de7777;"></div></div>
+        <div class="h-bar-val">99k tCO2e</div>
+      </div>
+      <div class="h-bar-row">
+        <div class="h-bar-label">Mangrove</div>
+        <div class="h-bar-track"><div class="h-bar-fill" style="width:13.4%; background:#386694;"></div></div>
+        <div class="h-bar-val">69k tCO2e</div>
+      </div>
+      <div class="h-bar-row">
+        <div class="h-bar-label">Soil C</div>
+        <div class="h-bar-track"><div class="h-bar-fill" style="width:3.0%; background:#88b2b7;"></div></div>
+        <div class="h-bar-val">15k tCO2e</div>
+      </div>
+      <div class="h-bar-row">
+        <div class="h-bar-label">Biochar</div>
+        <div class="h-bar-track"><div class="h-bar-fill" style="width:2.4%; background:#e7a33c;"></div></div>
+        <div class="h-bar-val">12k tCO2e</div>
+      </div>
+      <div class="h-bar-row">
+        <div class="h-bar-label">DAC</div>
+        <div class="h-bar-track"><div class="h-bar-fill" style="width:1.2%; background:#ffb547;"></div></div>
+        <div class="h-bar-val">6k tCO2e</div>
       </div>
     </div>
   </div>
+
+  <!-- Bar chart replaces donut: "How is portfolio quality distributed?"
+       Counts derived from dataset using the same ratingColor thresholds (≥80 low, ≥60 medium, <60 high).
+       Low 5, Medium 5, High 2, Unrated 2 — bar lengths compare directly unlike donut arc angles. -->
+  <div class="chart-card b">
+    <h3>Risk Rating Distribution</h3>
+    <div class="h-bars">
+      <div class="h-bar-row">
+        <div class="h-bar-label">Low risk</div>
+        <div class="h-bar-track"><div class="h-bar-fill" style="width:100%; background:#397f86;"></div></div>
+        <div class="h-bar-val">5 projects</div>
+      </div>
+      <div class="h-bar-row">
+        <div class="h-bar-label">Medium risk</div>
+        <div class="h-bar-track"><div class="h-bar-fill" style="width:100%; background:#e7a33c;"></div></div>
+        <div class="h-bar-val">5 projects</div>
+      </div>
+      <div class="h-bar-row">
+        <div class="h-bar-label">High risk</div>
+        <div class="h-bar-track"><div class="h-bar-fill" style="width:40%; background:#de7777;"></div></div>
+        <div class="h-bar-val">2 projects</div>
+      </div>
+      <div class="h-bar-row">
+        <div class="h-bar-label">Unrated</div>
+        <div class="h-bar-track"><div class="h-bar-fill" style="width:40%; background:#cccccc;"></div></div>
+        <div class="h-bar-val">2 projects</div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <div class="table-section">
