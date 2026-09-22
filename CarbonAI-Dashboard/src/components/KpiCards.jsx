@@ -12,7 +12,6 @@ export default function KpiCards() {
       <div className="stat-card accent-navy">
         <span className="num">{totalProjects}</span>
         <span className="lbl">Total Projects</span>
-        <span className="sub">{pendingOrUnrated} Pending / Unrated</span>
       </div>
       <div className="stat-card accent-teal">
         <span className="num">{volumeLabel}</span>

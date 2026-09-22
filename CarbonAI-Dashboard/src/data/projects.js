@@ -87,18 +87,22 @@ export const projects = [
 
 export function parseVolume(raw) {
   if (!raw) return null
-  const s = String(raw).toLowerCase()
-  const num = parseFloat(s.replace(/[^0-9.]/g, ''))
+  const s = String(raw).trim()
+  const match = s.match(/^[\d,]+(\.\d+)?/)
+  if (!match) return null
+  const num = parseFloat(match[0].replace(/,/g, ''))
   if (isNaN(num)) return null
-  if (s.includes('kt')) return num * 1000
+  if (s.toLowerCase().includes('kt')) return num * 1000
   return num
 }
 
 export function parsePrice(raw) {
   if (!raw) return null
-  const s = String(raw)
+  const s = String(raw).trim()
   const currency = s.includes('£') ? 'GBP' : s.includes('€') ? 'EUR' : 'USD'
-  const num = parseFloat(s.replace(/[^0-9.]/g, ''))
+  const match = s.match(/[\d,]+(\.\d+)?/)
+  if (!match) return null
+  const num = parseFloat(match[0].replace(/,/g, ''))
   if (isNaN(num)) return null
   if (currency === 'GBP') return +(num * 1.27).toFixed(2)
   if (currency === 'EUR') return +(num * 1.10).toFixed(2)

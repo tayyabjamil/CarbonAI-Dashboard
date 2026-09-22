@@ -1,6 +1,5 @@
 import { useState, useMemo } from 'react'
 import { projects, ratingBand } from './data/projects'
-import Sidebar from './components/Sidebar'
 import TopBar from './components/TopBar'
 import KpiCards from './components/KpiCards'
 import FilterBar from './components/FilterBar'
@@ -46,18 +45,17 @@ export default function App() {
 
   return (
     <div className="app-layout">
-      <Sidebar />
       <main className="main-content">
         <TopBar onExport={handleExport} />
         <KpiCards />
-<FilterBar
+        <Charts />
+        <FilterBar
           search={search}   setSearch={setSearch}
           type={type}       setType={setType}
           country={country} setCountry={setCountry}
           registry={registry} setRegistry={setRegistry}
           rating={rating}   setRating={setRating}
         />
-        <Charts />
         <ProjectTable projects={filtered} selectedId={selectedId} setSelectedId={setSelectedId} />
         <footer>
           <span>© 2026 CarbonAI. Internal use only.</span>

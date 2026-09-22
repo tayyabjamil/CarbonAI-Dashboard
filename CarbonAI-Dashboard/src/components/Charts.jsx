@@ -17,6 +17,22 @@ function HBarChart({ data }) {
   )
 }
 
+function VBarChart({ data }) {
+  return (
+    <div className="v-bars">
+      {data.map(row => (
+        <div key={row.label} className="v-bar-col">
+          <span className="v-bar-val">{row.val}</span>
+          <div className="v-bar-track">
+            <div className="v-bar-fill" style={{ height: `${row.pct}%`, background: row.color }} />
+          </div>
+          <span className="v-bar-label">{row.label}</span>
+        </div>
+      ))}
+    </div>
+  )
+}
+
 function Toggle({ options, active, onChange }) {
   return (
     <div className="chart-toggle">
@@ -44,7 +60,7 @@ export default function Charts() {
 
   return (
     <div className="charts-row">
-      <div className="chart-card">
+      <div className="chart-card" style={{ flex: 7 }}>
         <div className="chart-card-header">
           <h3>Volume by</h3>
           <Toggle
@@ -58,9 +74,9 @@ export default function Charts() {
         </div>
         <HBarChart data={volumeData} />
       </div>
-      <div className="chart-card">
+      <div className="chart-card" style={{ flex: 3 }}>
         <h3>Rating Distribution</h3>
-        <HBarChart data={ratingData} />
+        <VBarChart data={ratingData} />
       </div>
     </div>
   )
