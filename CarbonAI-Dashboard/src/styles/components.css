@@ -1,0 +1,110 @@
+@layer ds.components {
+
+  /* ── Button ──────────────────────────────────────────────────── */
+  .ds-btn {
+    display:       inline-flex;
+    align-items:   center;
+    gap:           6px;
+    padding:       7px var(--sp-2);
+    border:        1px solid transparent;
+    border-radius: var(--radius-sm);
+    font-size:     var(--text-btn);
+    font-weight:   var(--fw-medium);
+    letter-spacing: 0.3px;
+    white-space:   nowrap;
+    cursor:        pointer;
+    transition:
+      background   var(--ease),
+      border-color var(--ease),
+      color        var(--ease),
+      box-shadow   var(--ease);
+  }
+
+  .ds-btn-primary {
+    background:   var(--navy);
+    color:        #fff;
+    border-color: var(--navy);
+    box-shadow:   var(--shadow-xs);
+  }
+  .ds-btn-primary:hover {
+    background:   var(--navy-dark);
+    border-color: var(--navy-dark);
+    box-shadow:   var(--shadow-sm);
+  }
+  .ds-btn-primary:focus-visible {
+    outline:        2px solid var(--amber);
+    outline-offset: 2px;
+  }
+  .ds-btn-primary:active { background: var(--navy-dark); box-shadow: none; }
+
+  /* ── Text input ──────────────────────────────────────────────── */
+  .ds-input {
+    padding:       7px 10px;
+    border:        1px solid var(--border-mid);
+    border-radius: var(--radius-sm);
+    font-size:     var(--text-btn);
+    font-weight:   var(--fw-normal);
+    color:         var(--text-primary);
+    background:    var(--surface);
+    transition:    border-color var(--ease), outline var(--ease);
+  }
+  .ds-input:focus {
+    outline:        2px solid var(--navy);
+    outline-offset: -1px;
+    border-color:   transparent;
+  }
+  .ds-input::placeholder { color: var(--text-muted); }
+
+  /* ── Select ──────────────────────────────────────────────────── */
+  .ds-select {
+    padding:       6px 10px;
+    border:        1px solid var(--border-mid);
+    border-radius: var(--radius-sm);
+    font-size:     var(--text-btn);
+    font-weight:   var(--fw-normal);
+    color:         var(--text-secondary);
+    background:    var(--bg);
+    cursor:        pointer;
+    transition:    outline var(--ease);
+  }
+  .ds-select:focus {
+    outline:        2px solid var(--navy);
+    outline-offset: -1px;
+  }
+
+  /* ── Surface card ────────────────────────────────────────────── */
+  .ds-card {
+    background:    var(--surface);
+    border:        1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow:    var(--shadow-sm);
+  }
+
+  /* ── Risk / status badges ────────────────────────────────────── */
+  .ds-badge {
+    display:        inline-block;
+    padding:        2px 7px;
+    border-radius:  var(--radius-xs);
+    font-size:      var(--text-eyebrow);
+    font-weight:    var(--fw-bold);
+    white-space:    nowrap;
+    letter-spacing: 0.2px;
+  }
+  .ds-badge-low     { background: #cee8e5; color: #1a5858; }
+  .ds-badge-medium  { background: #fef0cf; color: #784600; }
+  .ds-badge-high    { background: #fde0e0; color: #8c2020; }
+  .ds-badge-unrated { background: #e8e8e8; color: #606060; }
+  .ds-badge-pending { background: #fef5df; color: #7a4c00; }
+
+  /* ── Eyebrow label ───────────────────────────────────────────── */
+  .ds-eyebrow {
+    font-size:      var(--text-eyebrow);
+    font-weight:    var(--fw-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color:          var(--text-secondary);
+  }
+
+  /* ── Divider ─────────────────────────────────────────────────── */
+  .ds-divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+}

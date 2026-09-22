@@ -1,0 +1,24 @@
+@layer ds.tokens {
+  :root {
+    --font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    --line-height: 1.45;
+
+    /* ── Size scale ──────────────────────────────────────────────── */
+    --text-page-title:    26px;
+    --text-section-title: 16px;
+    --text-kpi-num:       32px;
+    --text-kpi-label:     13px;
+    --text-table-header:  13px;
+    --text-body:          14px;
+    --text-table-cell:    13px;
+    --text-helper:        12px;
+    --text-btn:           13px;
+    --text-eyebrow:       11px;
+
+    /* ── Weights ─────────────────────────────────────────────────── */
+    --fw-normal:   400;
+    --fw-medium:   500;
+    --fw-semibold: 600;
+    --fw-bold:     700;
+  }
+}

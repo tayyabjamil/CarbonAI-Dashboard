@@ -1,0 +1,35 @@
+@layer ds.base {
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html { height: 100%; }
+
+  body {
+    margin: 0;
+    height: 100%;
+    font-family:  var(--font-family);
+    font-size:    var(--text-table-cell);
+    line-height:  var(--line-height);
+    color:        var(--text-primary);
+    background:   var(--bg);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    margin:      0;
+    font-weight: var(--fw-bold);
+    line-height: 1.2;
+    color:       var(--heading-color);
+  }
+
+  p, ul, ol, dl { margin: 0; }
+  a             { color: inherit; text-decoration: none; }
+  img, svg      { display: block; }
+
+  button, input, select, textarea {
+    font-family: inherit;
+    font-size:   inherit;
+    line-height: inherit;
+  }
+  button { cursor: pointer; border: none; background: none; padding: 0; }
+}

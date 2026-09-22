@@ -1,0 +1,6 @@
+@layer ds.tokens {
+  :root {
+    --ease:      130ms ease;
+    --ease-slow: 260ms ease;
+  }
+}

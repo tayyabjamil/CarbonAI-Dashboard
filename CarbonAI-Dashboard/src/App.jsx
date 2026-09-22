@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react'
-import { projects, ratingBand } from './data/projects'
+import { projects } from './data/projects'
+import { ratingBand } from './utils/parse'
 import TopBar from './components/TopBar'
 import KpiCards from './components/KpiCards'
 import FilterBar from './components/FilterBar'
@@ -32,15 +33,17 @@ export default function App() {
   }, [search, type, country, registry, rating])
 
   function handleExport() {
-    const header = ['ID', 'Name', 'Registry', 'Country', 'Type', 'Vintage', 'Volume', 'Price', 'Rating', 'Updated']
-    const rows = filtered.map(p =>
-      [p.id, p.name, p.registry, p.country, p.type, p.vintage, p.volume, p.price, p.rating ?? '', p.updated]
-    )
-    const csv = [header, ...rows].map(r => r.join(',')).join('\n')
+    const headers = ['ID', 'Name', 'Type', 'Country', 'Registry', 'Vintage', 'Volume', 'Price', 'Rating', 'Updated']
+    const rows = filtered.map(p => [
+      p.id, p.name, p.type, p.country, p.registry,
+      p.vintage, p.volume, p.price, p.rating ?? 'Unrated', p.updated
+    ])
+    const csv = [headers, ...rows].map(r => r.map(v => `"${v}"`).join(',')).join('\n')
     const a = document.createElement('a')
     a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }))
     a.download = 'carbonai-portfolio.csv'
     a.click()
+    URL.revokeObjectURL(a.href)
   }
 
   return (

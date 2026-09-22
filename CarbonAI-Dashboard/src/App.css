@@ -118,9 +118,10 @@
   margin:  var(--sp-3) var(--sp-3) 0;
 }
 
+
 .stat-card {
   flex:          1;
-  padding:       var(--sp-2) var(--sp-3);
+  padding:       var(--sp-1) var(--sp-2);
   background:    var(--surface);
   border:        1px solid var(--border);
   border-left:   3px solid var(--border);
@@ -139,7 +140,7 @@
   font-weight: var(--fw-bold);
   display:     block;
   color:       var(--text-primary);
-  line-height: 1.2;
+  line-height: 1.1;
 }
 .stat-card .lbl {
   font-size:   var(--text-kpi-label);
@@ -148,6 +149,47 @@
   margin-top:  var(--sp-0);
   display:     block;
 }
+.price-range {
+  display:        flex;
+  flex-direction: column;
+  gap:            4px;
+  margin-top:     var(--sp-1);
+  border-top:     1px solid var(--border);
+  padding-top:    var(--sp-1);
+}
+
+.price-range-item {
+  display:     flex;
+  align-items: center;
+  gap:         6px;
+}
+
+.price-range-tag {
+  font-size:     var(--text-eyebrow);
+  font-weight:   var(--fw-bold);
+  padding:       1px 5px;
+  border-radius: var(--radius-xs);
+  flex-shrink:   0;
+}
+.price-range-tag.high { background: #fde0e0; color: #8c2020; }
+.price-range-tag.low  { background: #cee8e5; color: #1a5858; }
+
+.price-range-name {
+  font-size:     var(--text-helper);
+  color:         var(--text-secondary);
+  flex:          1;
+  overflow:      hidden;
+  text-overflow: ellipsis;
+  white-space:   nowrap;
+}
+
+.price-range-val {
+  font-size:   var(--text-helper);
+  font-weight: var(--fw-semibold);
+  color:       var(--text-primary);
+  flex-shrink: 0;
+}
+
 .stat-card .sub {
   font-size:   var(--text-helper);
   font-weight: var(--fw-normal);
@@ -297,7 +339,7 @@
   display:     flex;
   gap:         var(--sp-2);
   margin:      var(--sp-3) var(--sp-3) var(--sp-2);
-  align-items: flex-start;
+  align-items: stretch;
 }
 
 .chart-card {
@@ -308,6 +350,8 @@
   border-radius: var(--radius);
   padding:       12px var(--sp-2);
   box-shadow:    var(--shadow-sm);
+  max-height:    320px;
+  overflow:      hidden;
 }
 
 .chart-card h3 {
@@ -326,6 +370,13 @@
   margin-bottom: var(--sp-2);
 }
 .chart-card-header h3 { margin: 0; }
+
+.chart-total {
+  margin-left: auto;
+  font-size:   var(--text-helper);
+  font-weight: var(--fw-semibold);
+  color:       var(--text-muted);
+}
 
 .chart-toggle {
   display:       flex;
@@ -354,7 +405,7 @@
   box-shadow: var(--shadow-xs);
 }
 
-.h-bars      { display: flex; flex-direction: column; gap: var(--sp-1); }
+.h-bars      { display: flex; flex-direction: column; gap: var(--sp-2); }
 .h-bar-row   { display: flex; align-items: center; gap: 10px; }
 
 .h-bar-label {
@@ -370,7 +421,7 @@
 .h-bar-track {
   flex:          1;
   background:    var(--bg);
-  height:        16px;
+  height:        20px;
   border-radius: var(--radius-xs);
   overflow:      hidden;
 }
@@ -387,44 +438,173 @@
   color:     var(--text-muted);
 }
 
-/* Vertical bar chart */
-.v-bars {
-  display:     flex;
-  align-items: flex-end;
-  gap:         var(--sp-2);
-  height:      160px;
-  padding-top: var(--sp-3);
+/* ── Map ──────────────────────────────────────────────────────── */
+.world-map-wrap {
+  position:    relative;
+  height:      100%;
+  overflow:    hidden;
+  cursor:      grab;
+  user-select: none;
 }
-.v-bar-col {
-  flex:           1;
+.world-map-wrap.dragging { cursor: grabbing; }
+
+.map-zoom-controls {
+  position:       absolute;
+  top:            var(--sp-1);
+  left:           var(--sp-1);
   display:        flex;
   flex-direction: column;
-  align-items:    center;
-  height:         100%;
+  gap:            2px;
+  z-index:        10;
 }
-.v-bar-track {
-  flex:            1;
-  width:           100%;
-  display:         flex;
-  align-items:     flex-end;
+
+.map-zoom-btn {
+  width:         24px;
+  height:        24px;
+  background:    var(--surface);
+  border:        1px solid var(--border);
+  border-radius: var(--radius-xs);
+  font-size:     14px;
+  font-weight:   var(--fw-bold);
+  color:         var(--text-secondary);
+  cursor:        pointer;
+  display:       flex;
+  align-items:   center;
+  justify-content: center;
+  box-shadow:    var(--shadow-xs);
+  transition:    background var(--ease), color var(--ease);
+  line-height:   1;
 }
-.v-bar-fill {
-  width:         100%;
-  border-radius: var(--radius-xs) var(--radius-xs) 0 0;
-  min-height:    4px;
-  transition:    height var(--ease-slow);
+.map-zoom-btn:hover:not(:disabled) {
+  background: var(--surface-alt);
+  color:      var(--text-primary);
 }
-.v-bar-val {
+.map-zoom-btn:disabled {
+  opacity: 0.35;
+  cursor:  not-allowed;
+}
+
+.map-legend {
+  position:    absolute;
+  top:         var(--sp-1);
+  right:       var(--sp-1);
+  display:     flex;
+  flex-direction: column;
+  gap:         4px;
+  background:  var(--surface);
+  border:      1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding:     6px 8px;
+  box-shadow:  var(--shadow-xs);
+}
+
+.map-legend-item {
+  display:     flex;
+  align-items: center;
+  gap:         5px;
   font-size:   var(--text-eyebrow);
-  color:       var(--text-muted);
-  margin-bottom: var(--sp-0);
+  color:       var(--text-secondary);
 }
-.v-bar-label {
+
+.map-legend-dot {
+  width:         7px;
+  height:        7px;
+  border-radius: 50%;
+  flex-shrink:   0;
+}
+
+.map-tooltip {
+  position:      absolute;
+  bottom:        var(--sp-1);
+  left:          var(--sp-1);
+  background:    var(--surface);
+  border:        1px solid var(--border);
+  border-radius: var(--radius);
+  padding:       var(--sp-1) var(--sp-2);
+  font-size:     var(--text-helper);
+  box-shadow:    var(--shadow-md);
+  pointer-events: none;
+  min-width:     220px;
+  max-width:     300px;
+}
+
+.map-tooltip-header {
+  display:         flex;
+  justify-content: space-between;
+  align-items:     center;
+  margin-bottom:   6px;
+}
+
+.map-tooltip-header strong {
+  font-size:   var(--text-table-cell);
+  color:       var(--text-primary);
+  font-weight: var(--fw-semibold);
+}
+
+.map-tooltip-count {
   font-size:  var(--text-eyebrow);
-  color:      var(--text-secondary);
-  margin-top: var(--sp-0);
-  text-align: center;
-  white-space: nowrap;
+  color:      var(--text-muted);
+  font-weight: var(--fw-medium);
+}
+
+.map-tooltip-projects {
+  display:        flex;
+  flex-direction: column;
+  gap:            6px;
+}
+
+.map-tooltip-project {
+  display:        flex;
+  flex-direction: column;
+  gap:            2px;
+  padding-top:    6px;
+  border-top:     1px solid var(--border);
+}
+
+.map-tooltip-name {
+  font-size:   var(--text-helper);
+  font-weight: var(--fw-semibold);
+  color:       var(--text-primary);
+}
+
+.map-tooltip-meta {
+  font-size: var(--text-eyebrow);
+  color:     var(--text-muted);
+}
+
+/* Risk distribution — horizontal row inside card 1 */
+.risk-row {
+  display:    flex;
+  gap:        var(--sp-2);
+  flex-wrap:  wrap;
+  margin-top: var(--sp-1);
+  border-top: 1px solid var(--border);
+  padding-top: var(--sp-1);
+}
+
+.risk-row-item {
+  display:     flex;
+  align-items: center;
+  gap:         5px;
+}
+
+.risk-count {
+  font-size:   var(--text-table-cell);
+  font-weight: var(--fw-bold);
+  line-height: 1;
+}
+
+.risk-dot {
+  width:         7px;
+  height:        7px;
+  border-radius: 50%;
+  flex-shrink:   0;
+}
+
+.risk-label {
+  font-size:   var(--text-helper);
+  color:       var(--text-secondary);
+  font-weight: var(--fw-medium);
 }
 
 /* ── Table ────────────────────────────────────────────────────── */

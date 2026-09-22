@@ -1,0 +1,29 @@
+@layer ds.tokens {
+  :root {
+    /* ── Brand palette ───────────────────────────────────────────── */
+    --navy:      #2e7575;
+    --navy-dark: #1d5e5e;
+    --teal:      #397f86;
+    --heading-color: #397f86;
+    --amber:     #e8a020;
+    --coral:     #de7777;
+    --slate:     #56636b;
+
+    /* ── Risk semantics ──────────────────────────────────────────── */
+    --risk-low:    var(--teal);
+    --risk-medium: var(--amber);
+    --risk-high:   var(--coral);
+
+    /* ── Surface stack ───────────────────────────────────────────── */
+    --bg:          #f0f2f5;
+    --surface:     #ffffff;
+    --surface-alt: #f5f7fa;
+    --border:      #e2e2e2;
+    --border-mid:  #c8cdd2;
+
+    /* ── Text hierarchy ──────────────────────────────────────────── */
+    --text-primary:   #1a1a1a;
+    --text-secondary: #4e5d66;
+    --text-muted:     #909ca3;
+  }
+}

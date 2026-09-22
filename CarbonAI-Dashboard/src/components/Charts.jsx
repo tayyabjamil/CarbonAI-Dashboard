@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { useVolumeByType, useVolumeByRegistry, useRatingData } from '../hooks/useChartData'
+import { useVolumeByType, useVolumeByRegistry, usePortfolioStats } from '../hooks/useChartData'
+import WorldMap from './WorldMap'
 
 function HBarChart({ data }) {
   return (
@@ -11,22 +12,6 @@ function HBarChart({ data }) {
             <div className="h-bar-fill" style={{ width: `${row.pct}%`, background: row.color }} />
           </div>
           <div className="h-bar-val">{row.val}</div>
-        </div>
-      ))}
-    </div>
-  )
-}
-
-function VBarChart({ data }) {
-  return (
-    <div className="v-bars">
-      {data.map(row => (
-        <div key={row.label} className="v-bar-col">
-          <span className="v-bar-val">{row.val}</span>
-          <div className="v-bar-track">
-            <div className="v-bar-fill" style={{ height: `${row.pct}%`, background: row.color }} />
-          </div>
-          <span className="v-bar-label">{row.label}</span>
         </div>
       ))}
     </div>
@@ -54,13 +39,16 @@ export default function Charts() {
 
   const volumeByType     = useVolumeByType()
   const volumeByRegistry = useVolumeByRegistry()
-  const ratingData       = useRatingData()
+  const { totalVolume }  = usePortfolioStats()
 
   const volumeData = volumeView === 'type' ? volumeByType : volumeByRegistry
+  const totalLabel = totalVolume >= 1000
+    ? `${(totalVolume / 1000).toFixed(1)}k tCO₂e total`
+    : `${totalVolume} tCO₂e total`
 
   return (
     <div className="charts-row">
-      <div className="chart-card" style={{ flex: 7 }}>
+      <div className="chart-card" style={{ flex: 1 }}>
         <div className="chart-card-header">
           <h3>Volume by</h3>
           <Toggle
@@ -71,12 +59,13 @@ export default function Charts() {
             active={volumeView}
             onChange={setVolumeView}
           />
+          <span className="chart-total">{totalLabel}</span>
         </div>
         <HBarChart data={volumeData} />
       </div>
-      <div className="chart-card" style={{ flex: 3 }}>
-        <h3>Rating Distribution</h3>
-        <VBarChart data={ratingData} />
+      <div className="chart-card" style={{ flex: 1 }}>
+        <h3>Geographic Coverage</h3>
+        <WorldMap />
       </div>
     </div>
   )

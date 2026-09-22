@@ -1,0 +1,10 @@
+/* Layer order must be declared before any @import resolves */
+@layer ds.tokens, ds.base, ds.components;
+
+@import './tokens/colors.css';
+@import './tokens/typography.css';
+@import './tokens/spacing.css';
+@import './tokens/elevation.css';
+@import './tokens/motion.css';
+@import './base.css';
+@import './components.css';
