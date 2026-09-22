@@ -1,20 +1,72 @@
+/* ============================================================
+   DESIGN TOKENS
+   One place for every value — nothing hard-coded elsewhere.
+   ============================================================ */
+:root {
+  /* Brand palette */
+  --navy:   #314e89;
+  --amber:  #ffb547;
+  --teal:   #397f86;
+  --coral:  #de7777;
+  --slate:  #56636b;
+
+  /* Semantic status colours — only used for real meaning */
+  --risk-low:    #397f86;
+  --risk-medium: #e7a33c;
+  --risk-high:   #de7777;
+
+  /* Surfaces */
+  --bg:             #f0f2f5;
+  --surface:        #ffffff;
+  --border:         #e2e2e2;
+  --border-strong:  #c8cdd2;
+
+  /* Text */
+  --text-primary:   #1a1a1a;
+  --text-secondary: #56636b;
+  --text-muted:     #999999;
+
+  /* Type scale */
+  --text-xl:  20px;   /* page title */
+  --text-lg:  15px;   /* section heading */
+  --text-md:  13px;   /* body, component title */
+  --text-sm:  12px;   /* table */
+  --text-xs:  11px;   /* labels, meta */
+
+  /* Spacing — 8px grid */
+  --sp-1:  8px;
+  --sp-2: 16px;
+  --sp-3: 24px;
+  --sp-4: 32px;
+
+  /* Shape — one radius family */
+  --radius:    4px;
+  --radius-sm: 2px;
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
 * { box-sizing: border-box; }
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
-  background: #f0f0f0;
-  color: #2b2b2b;
+  background: var(--bg);
+  color: var(--text-primary);
+  font-size: var(--text-sm);
+  line-height: 1.4;
   height: 100vh;
   overflow: hidden;
 }
 
-/* ===== APP LAYOUT ===== */
-.app-layout {
-  display: flex;
-  height: 100vh;
-}
+/* ============================================================
+   APP LAYOUT
+   ============================================================ */
+.app-layout { display: flex; height: 100vh; }
 
-/* ===== SIDEBAR ===== */
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
 .sidebar {
   width: 200px;
   flex-shrink: 0;
@@ -23,236 +75,224 @@ body {
   flex-direction: column;
 }
 .sidebar-brand {
-  padding: 20px 20px 20px;
+  padding: var(--sp-2) var(--sp-3);
   color: #fff;
-  font-size: 15px;
+  font-size: var(--text-md);
   font-weight: 700;
   letter-spacing: 0.3px;
   border-bottom: 1px solid rgba(255,255,255,0.08);
 }
-.sidebar-brand span { color: #ffb547; }
-.sidebar-nav {
-  padding: 12px 0;
-  display: flex;
-  flex-direction: column;
-}
+.sidebar-brand span { color: var(--amber); }
+.sidebar-nav { padding: var(--sp-1) 0; display: flex; flex-direction: column; }
 .sidebar-nav a {
   color: #8ea0b8;
   text-decoration: none;
-  font-size: 13px;
-  padding: 10px 20px;
+  font-size: var(--text-md);
+  padding: 10px var(--sp-3);
   display: block;
   border-left: 3px solid transparent;
 }
-.sidebar-nav a:hover {
-  background: rgba(255,255,255,0.06);
-  color: #d0dce8;
-}
-.sidebar-nav a.active {
-  color: #fff;
-  background: rgba(255,255,255,0.1);
-  border-left-color: #ffb547;
-}
+.sidebar-nav a:hover { background: rgba(255,255,255,0.06); color: #d0dce8; }
+.sidebar-nav a:focus-visible { outline: 2px solid var(--amber); outline-offset: -2px; }
+.sidebar-nav a.active { color: #fff; background: rgba(255,255,255,0.1); border-left-color: var(--amber); }
 
-/* ===== MAIN CONTENT ===== */
-.main-content {
-  flex: 1;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
+/* ============================================================
+   MAIN CONTENT
+   ============================================================ */
+.main-content { flex: 1; overflow-y: auto; display: flex; flex-direction: column; min-width: 0; }
 
-/* ===== TOP BAR ===== */
+/* ============================================================
+   TOP BAR
+   ============================================================ */
 .top-bar {
-  background: white;
-  border-bottom: 1px solid #e2e2e2;
-  padding: 16px 28px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: var(--sp-2) var(--sp-3);
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-shrink: 0;
 }
-.top-bar h1 {
-  font-size: 20px;
-  margin: 0 0 2px 0;
-  color: #1a1a1a;
-  font-weight: 700;
-}
-.top-bar p {
-  margin: 0;
-  font-size: 11px;
-  color: #aaa;
-}
-.btn-export {
-  background: #de7777;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 2px;
-  font-size: 13px;
-  cursor: pointer;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
-}
+.top-bar h1 { font-size: var(--text-xl); margin: 0 0 2px 0; font-weight: 700; color: var(--text-primary); }
+.top-bar p  { margin: 0; font-size: var(--text-xs); color: var(--text-muted); }
 
-/* ===== STAT CARDS ===== */
-.stats-row {
-  display: flex;
-  gap: 14px;
-  margin: 20px 28px;
+/* Primary action button */
+.btn-export {
+  background: var(--navy);
+  color: #fff;
+  border: none;
+  padding: 8px var(--sp-2);
+  border-radius: var(--radius);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.3px;
 }
+.btn-export:hover { background: #263f72; }
+.btn-export:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+
+/* ============================================================
+   KPI CARDS
+   All cards are the same neutral surface.
+   A 3px left border accent carries the only colour signal.
+   ============================================================ */
+.stats-row { display: flex; gap: var(--sp-2); margin: var(--sp-3) var(--sp-3) 0; }
 .stat-card {
   flex: 1;
-  padding: 22px;
-  background: white;
+  padding: var(--sp-2) var(--sp-3);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--border);
+  border-radius: var(--radius);
 }
-.stat-card .num { font-size: 28px; font-weight: bold; display: block; }
-.stat-card .lbl { font-size: 11px; color: #999; margin-top: 4px; display: block; }
-.stat-card.c1 { border: 1px solid #ddd; }
-.stat-card.c2 { background: #ffb547; }
-.stat-card.c2 .num, .stat-card.c2 .lbl { color: #7a7876; }
-.stat-card.c3 { background: #314e89; }
-.stat-card.c3 .num { color: #fff; }
-.stat-card.c3 .lbl { color: #8ea0c0; }
+.stat-card.accent-navy   { border-left-color: var(--navy); }
+.stat-card.accent-teal   { border-left-color: var(--teal); }
+.stat-card.accent-amber  { border-left-color: var(--risk-medium); }
+.stat-card .num { font-size: 26px; font-weight: 700; display: block; color: var(--text-primary); }
+.stat-card .lbl { font-size: var(--text-xs); color: var(--text-muted); margin-top: 4px; display: block; }
 
-/* ===== FILTER BAR ===== */
+/* ============================================================
+   FILTER BAR
+   ============================================================ */
 .filter-bar {
-  margin: 0 28px 20px 28px;
-  background: white;
-  border: 1px solid #e2e2e2;
-  padding: 12px 20px;
+  margin: var(--sp-2) var(--sp-3);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--sp-1) var(--sp-2);
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--sp-1);
   flex-wrap: wrap;
 }
 .filter-bar input[type="text"] {
-  padding: 8px 12px;
-  border: 1px solid #afafaf;
-  border-radius: 3px;
-  font-size: 13px;
-  width: 200px;
-}
-.filter-bar select {
   padding: 7px 10px;
-  border: 1px solid #afafaf;
-  border-radius: 14px;
-  font-size: 12px;
-  background: #f4f7f8;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  font-size: var(--text-md);
+  width: 200px;
+  color: var(--text-primary);
+  background: var(--surface);
+}
+.filter-bar input[type="text"]:focus { outline: 2px solid var(--navy); outline-offset: -1px; border-color: transparent; }
+.filter-bar select {
+  padding: 6px 10px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  font-size: var(--text-xs);
+  background: var(--bg);
+  color: var(--text-secondary);
   cursor: pointer;
 }
+.filter-bar select:focus { outline: 2px solid var(--navy); outline-offset: -1px; }
 
-/* ===== CHARTS ===== */
+/* ============================================================
+   CHARTS
+   ============================================================ */
 .charts-row {
   display: flex;
-  gap: 14px;
-  margin: 0 28px 20px 28px;
+  gap: var(--sp-2);
+  margin: 0 var(--sp-3) var(--sp-2);
   align-items: flex-start;
 }
 .chart-card {
   flex: 1;
-  background: white;
-  border: 1px solid #e2e2e2;
-  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--sp-2);
 }
-.chart-card h3 { margin: 0 0 14px 0; font-size: 13px; }
-.chart-card.a h3 { text-transform: uppercase; letter-spacing: 0.5px; color: #666; }
-.chart-card.b h3 { color: #1a1a1a; }
+/* Consistent heading for all chart cards */
+.chart-card h3 {
+  margin: 0 0 var(--sp-2) 0;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-secondary);
+}
 
-/* Horizontal bars: label–track–value layout; lengths compare more precisely than donut angles */
-.h-bars { display: flex; flex-direction: column; gap: 11px; }
+/* Horizontal bars */
+.h-bars { display: flex; flex-direction: column; gap: var(--sp-1); }
 .h-bar-row { display: flex; align-items: center; gap: 10px; }
-.h-bar-label { width: 76px; font-size: 11px; color: #555; text-align: right; flex-shrink: 0; white-space: nowrap; }
-.h-bar-track { flex: 1; background: #f0f0f0; height: 18px; border-radius: 2px; overflow: hidden; }
-.h-bar-fill { height: 100%; border-radius: 2px; min-width: 4px; }
-.h-bar-val { width: 64px; font-size: 10px; color: #888; }
+.h-bar-label { width: 76px; font-size: var(--text-xs); color: var(--text-secondary); text-align: right; flex-shrink: 0; white-space: nowrap; }
+.h-bar-track { flex: 1; background: var(--bg); height: 16px; border-radius: var(--radius-sm); overflow: hidden; }
+.h-bar-fill { height: 100%; border-radius: var(--radius-sm); min-width: 4px; }
+.h-bar-val { width: 68px; font-size: var(--text-xs); color: var(--text-muted); }
 
-/* ===== TABLE ===== */
+/* ============================================================
+   TABLE
+   ============================================================ */
 .table-section {
-  margin: 0 28px 40px 28px;
-  background: white;
-  border: 1px solid #e2e2e2;
+  margin: 0 var(--sp-3) var(--sp-4);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
   overflow-x: auto;
 }
 .table-section-header {
-  padding: 14px 20px 10px 20px;
+  padding: var(--sp-2);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 1px solid var(--border);
 }
-.table-section-header h2 { font-size: 15px; margin: 0; }
-.table-section-header .count { font-size: 11px; color: #aaa; }
-table {
-  border-collapse: collapse;
-  font-size: 12px;
-  width: 100%;
-  min-width: 900px;
-}
+.table-section-header h2 { font-size: var(--text-lg); font-weight: 600; margin: 0; }
+.table-section-header .count { font-size: var(--text-xs); color: var(--text-muted); }
+
+table { border-collapse: collapse; font-size: var(--text-sm); width: 100%; min-width: 900px; }
 thead th {
-  background: #56636b;
-  color: white;
+  background: var(--bg);
+  color: var(--text-secondary);
   text-align: left;
-  padding: 10px 14px;
-  font-weight: normal;
+  padding: 9px var(--sp-2);
+  font-weight: 600;
+  font-size: var(--text-xs);
   white-space: nowrap;
-  font-size: 11px;
+  border-bottom: 1px solid var(--border);
   user-select: none;
 }
 thead th.sortable { cursor: pointer; }
-thead th .arrows { color: #d7e5e7; font-size: 9px; margin-left: 4px; }
-tbody td {
-  padding: 9px 14px;
-  border-bottom: 1px solid #eee;
-  vertical-align: top;
-}
-tbody tr:nth-child(3n) { background: #fafafa; }
-.name-cell { font-weight: 600; color: #1a1a1a; max-width: 280px; }
+thead th.sortable:hover { color: var(--text-primary); }
+thead th .arrows { color: var(--border-strong); font-size: 8px; margin-left: 4px; }
+tbody td { padding: 9px var(--sp-2); border-bottom: 1px solid var(--border); vertical-align: middle; }
+tbody tr:last-child td { border-bottom: none; }
 
-/* Rating badges: text label + colour so meaning is never colour-only */
-.badge {
-  display: inline-block;
-  padding: 3px 8px;
-  border-radius: 3px;
-  font-size: 11px;
-  font-weight: 600;
-  white-space: nowrap;
-}
+.name-cell { font-weight: 600; color: var(--text-primary); max-width: 280px; }
+
+/* Rating badges — text label + colour, never colour alone */
+.badge { display: inline-block; padding: 2px 7px; border-radius: var(--radius-sm); font-size: var(--text-xs); font-weight: 600; white-space: nowrap; }
 .badge-low     { background: #d4ede9; color: #286068; }
 .badge-medium  { background: #fef0d0; color: #8a5a00; }
 .badge-high    { background: #fde2e2; color: #a03030; }
 .badge-unrated { background: #ebebeb; color: #777; }
-.badge-pending { background: #ebebeb; color: #777; }
+.badge-pending { background: #fef7e6; color: #a06800; }
 
-/* Row interaction */
+/* Row states — hover, selected, focus all visible */
 .data-row { cursor: pointer; }
 .data-row:hover td { background: #f5f8fa; }
 .data-row.selected td { background: #eaf0f5; }
+.data-row:focus-visible { outline: 2px solid var(--navy); outline-offset: -2px; }
 
-/* Expanded detail row */
-.detail-row td {
-  background: #f0f5f8;
-  padding: 12px 20px;
-  border-bottom: 2px solid #314e89;
-}
-.project-detail { font-size: 12px; }
-.detail-id {
-  font-family: monospace;
-  font-size: 11px;
-  color: #aaa;
-  display: block;
-  margin-bottom: 6px;
-}
-.detail-notes { margin: 0; color: #444; line-height: 1.6; max-width: 700px; }
+/* Detail drawer — expanded row */
+.detail-row td { background: #edf2f7; padding: var(--sp-2); border-bottom: 2px solid var(--navy); }
+.project-detail { font-size: var(--text-sm); }
+.detail-id { font-family: monospace; font-size: var(--text-xs); color: var(--text-muted); display: block; margin-bottom: 6px; }
+.detail-notes { margin: 0; color: var(--text-secondary); line-height: 1.6; max-width: 700px; }
 
-/* ===== FOOTER ===== */
+/* ============================================================
+   FOOTER
+   ============================================================ */
 footer {
-  background: #7a7876;
-  color: #afafaf;
-  padding: 16px 28px;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+  padding: var(--sp-2) var(--sp-3);
   display: flex;
   justify-content: space-between;
-  font-size: 11px;
+  font-size: var(--text-xs);
   margin-top: auto;
   flex-shrink: 0;
 }
-footer a { color: #d0d0d0; text-decoration: none; }
+footer a { color: var(--text-secondary); text-decoration: none; }
+footer a:hover { color: var(--text-primary); }

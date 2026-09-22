@@ -35,11 +35,11 @@ function HBarChart({ data }) {
 export default function Charts() {
   return (
     <div className="charts-row">
-      <div className="chart-card a">
+      <div className="chart-card">
         <h3>Volume By Project Type</h3>
         <HBarChart data={volumeData} />
       </div>
-      <div className="chart-card b">
+      <div className="chart-card">
         <h3>Risk Rating Distribution</h3>
         <HBarChart data={riskData} />
       </div>
