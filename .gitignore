@@ -1,0 +1,8 @@
+# Ignore everything by default
+*
+
+# Unignore only the CarbonAI project files
+!.gitignore
+!README.md
+!carbonai-dashboard-exercise.html
+!CARBONAI_PLAN.md
