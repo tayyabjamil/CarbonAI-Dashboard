@@ -8,7 +8,6 @@ export default function Sidebar() {
         <a href="#" className="active">Portfolio</a>
         <a href="#">Ratings</a>
         <a href="#">Reports</a>
-        <a href="#">Registry sync</a>
       </nav>
     </aside>
   )

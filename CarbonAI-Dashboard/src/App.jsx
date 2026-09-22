@@ -16,13 +16,10 @@ export default function App() {
 
   const filtered = useMemo(() => {
     return projects.filter(p => {
-      if (search) {
-        const hay = `${p.name} ${p.registry} ${p.country} ${p.type} ${p.notes}`.toLowerCase()
-        if (!hay.includes(search.toLowerCase())) return false
-      }
+      if (search && !p.notes.toLowerCase().includes(search.toLowerCase())) return false
       if (type !== 'All types' && p.type !== type) return false
       if (country !== 'All countries' && p.country !== country) return false
-      if (registry !== 'All registries' && p.registry.toLowerCase() !== registry.toLowerCase()) return false
+      if (registry !== 'All registries' && p.registry !== registry) return false
       if (rating !== 'All ratings') {
         const band = ratingBand(p.rating)
         if (rating === 'Low risk'    && band !== 'low')     return false

@@ -1,23 +1,34 @@
 import { useState } from 'react'
-import { ratingColor } from '../data/projects'
+import { ratingBand } from '../data/projects'
 
+/* Column order: Project leads, then the analytical dimensions the analyst compares.
+   ID and Notes moved to expanded row — secondary metadata available on demand. */
 const COLS = [
-  { key: 'id',       label: 'ID' },
-  { key: 'name',     label: 'Project name', sortable: true },
-  { key: 'registry', label: 'Registry',     sortable: true },
-  { key: 'country',  label: 'Country',      sortable: true },
-  { key: 'rating',   label: 'Rating',       sortable: true },
-  { key: 'vintage',  label: 'Vintage',      sortable: true },
+  { key: 'name',     label: 'Project' },
+  { key: 'rating',   label: 'Rating' },
   { key: 'type',     label: 'Type' },
-  { key: 'volume',   label: 'Volume',       sortable: true },
-  { key: 'price',    label: 'Price',        sortable: true },
-  { key: 'updated',  label: 'Last updated', sortable: true },
-  { key: 'notes',    label: 'Notes' },
+  { key: 'country',  label: 'Country' },
+  { key: 'registry', label: 'Registry' },
+  { key: 'vintage',  label: 'Vintage',  sortable: true },
+  { key: 'volume',   label: 'Volume' },
+  { key: 'price',    label: 'Price',    sortable: true },
+  { key: 'updated',  label: 'Updated' },
 ]
 
+/* Text label + colour so meaning is never colour-only */
+function RatingBadge({ rating }) {
+  if (rating === null)        return <span className="badge badge-unrated">Unrated</span>
+  if (rating === 'pending')   return <span className="badge badge-pending">Pending</span>
+  const band = ratingBand(rating)
+  const label = band === 'low' ? 'Low' : band === 'medium' ? 'Med' : 'High'
+  const cls   = `badge badge-${band}`
+  return <span className={cls}>{label} · {rating}</span>
+}
+
 export default function ProjectTable({ projects }) {
-  const [sortCol, setSortCol] = useState(null)
-  const [sortDir, setSortDir] = useState(1)
+  const [sortCol,    setSortCol]    = useState(null)
+  const [sortDir,    setSortDir]    = useState(1)
+  const [selectedId, setSelectedId] = useState(null)
 
   const sorted = sortCol
     ? [...projects].sort((a, b) => {
@@ -30,6 +41,10 @@ export default function ProjectTable({ projects }) {
   function toggleSort(col) {
     if (sortCol === col) setSortDir(d => -d)
     else { setSortCol(col); setSortDir(1) }
+  }
+
+  function toggleRow(id) {
+    setSelectedId(prev => prev === id ? null : id)
   }
 
   return (
@@ -55,22 +70,34 @@ export default function ProjectTable({ projects }) {
         </thead>
         <tbody>
           {sorted.map(p => (
-            <tr key={p.id}>
-              <td className="id-cell">{p.id}</td>
-              <td className="name-cell">{p.name}</td>
-              <td>{p.registry}</td>
-              <td>{p.country}</td>
-              <td className="rating-cell">
-                <span className="risk-dot" style={{ background: ratingColor(p.rating) }} />{' '}
-                {p.rating === null ? '—' : p.rating}
-              </td>
-              <td>{p.vintage}</td>
-              <td>{p.type}</td>
-              <td>{p.volume}</td>
-              <td>{p.price}</td>
-              <td>{p.updated}</td>
-              <td className="notes-cell">{p.notes}</td>
-            </tr>
+            <>
+              <tr
+                key={p.id}
+                className={`data-row${selectedId === p.id ? ' selected' : ''}`}
+                onClick={() => toggleRow(p.id)}
+                title="Click to expand"
+              >
+                <td className="name-cell">{p.name}</td>
+                <td><RatingBadge rating={p.rating} /></td>
+                <td>{p.type}</td>
+                <td>{p.country}</td>
+                <td>{p.registry}</td>
+                <td>{p.vintage}</td>
+                <td>{p.volume}</td>
+                <td>{p.price}</td>
+                <td>{p.updated}</td>
+              </tr>
+              {selectedId === p.id && (
+                <tr key={`${p.id}-detail`} className="detail-row">
+                  <td colSpan={COLS.length}>
+                    <div className="project-detail">
+                      <span className="detail-id">{p.id}</span>
+                      <p className="detail-notes">{p.notes || 'No notes recorded.'}</p>
+                    </div>
+                  </td>
+                </tr>
+              )}
+            </>
           ))}
         </tbody>
       </table>

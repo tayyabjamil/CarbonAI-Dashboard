@@ -206,11 +206,43 @@ tbody td {
   vertical-align: top;
 }
 tbody tr:nth-child(3n) { background: #fafafa; }
-.notes-cell { max-width: 260px; font-size: 11.5px; color: #555; line-height: 1.4; }
-.id-cell { color: #bbb; font-family: monospace; }
-.name-cell { font-weight: bold; color: #1a1a1a; }
-.risk-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; vertical-align: middle; }
-.rating-cell { font-weight: bold; }
+.name-cell { font-weight: 600; color: #1a1a1a; max-width: 280px; }
+
+/* Rating badges: text label + colour so meaning is never colour-only */
+.badge {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.badge-low     { background: #d4ede9; color: #286068; }
+.badge-medium  { background: #fef0d0; color: #8a5a00; }
+.badge-high    { background: #fde2e2; color: #a03030; }
+.badge-unrated { background: #ebebeb; color: #777; }
+.badge-pending { background: #ebebeb; color: #777; }
+
+/* Row interaction */
+.data-row { cursor: pointer; }
+.data-row:hover td { background: #f5f8fa; }
+.data-row.selected td { background: #eaf0f5; }
+
+/* Expanded detail row */
+.detail-row td {
+  background: #f0f5f8;
+  padding: 12px 20px;
+  border-bottom: 2px solid #314e89;
+}
+.project-detail { font-size: 12px; }
+.detail-id {
+  font-family: monospace;
+  font-size: 11px;
+  color: #aaa;
+  display: block;
+  margin-bottom: 6px;
+}
+.detail-notes { margin: 0; color: #444; line-height: 1.6; max-width: 700px; }
 
 /* ===== FOOTER ===== */
 footer {
