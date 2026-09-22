@@ -1,8 +1,9 @@
 export default function Sidebar() {
   return (
     <aside className="sidebar">
-      <div className="sidebar-brand">
-        Carbon<span>AI</span>
+      {/* Logo on white — matches the brand's light background */}
+      <div className="sidebar-logo-wrap">
+        <img src="/logo.png" alt="CarbonAI" className="sidebar-logo" />
       </div>
       <nav className="sidebar-nav">
         <a href="#" className="active">Portfolio</a>
