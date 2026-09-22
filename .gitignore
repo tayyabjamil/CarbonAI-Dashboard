@@ -7,3 +7,8 @@
 !CARBONAI_PLAN.md
 !CarbonAI-Dashboard/
 !CarbonAI-Dashboard/**
+
+# Re-ignore generated/installed directories inside the project
+CarbonAI-Dashboard/node_modules/
+CarbonAI-Dashboard/dist/
+CarbonAI-Dashboard/.claude/
