@@ -123,23 +123,15 @@
   }
   .stat-card {
     flex: 1;
-    padding: 22px;
+    padding: 22px 24px;
     background: white;
+    border: 1px solid #e2e2e2;
+    border-radius: 6px;
   }
-  .stat-card .num { font-size: 30px; font-weight: bold; display: block; }
-  .stat-card .lbl { font-size: 11px; color: #999; margin-top: 4px; display: block; }
-
-  .stat-card.c1 { border-radius: 0px; border: 1px solid #ddd; }
-  .stat-card.c2 { background: #ffb547; border-radius: 6px; }
-  .stat-card.c2 .num, .stat-card.c2 .lbl { color: #7a7876; }
-  .stat-card.c3 { background: #314e89; border-radius: 3px; }
-  .stat-card.c3 .num { color: #56636b; }
-  .stat-card.c3 .lbl { color: #56636b; }
-  .stat-card.c4 {
-    border-radius: 22px;
-    box-shadow: 0 10px 24px rgba(0,0,0,0.22);
-    border: none;
-  }
+  .stat-card .num { font-size: 30px; font-weight: bold; display: block; color: #1a1a1a; }
+  .stat-card .lbl { font-size: 11px; color: #999; margin-top: 4px; display: block; text-transform: uppercase; letter-spacing: 0.05em; }
+  .stat-card .sub { font-size: 11px; color: #bbb; margin-top: 2px; display: block; }
+  .stat-card.attention { border-left: 3px solid #e7a33c; }
 
   /* ===== CHARTS ===== */
   .charts-row {
@@ -276,21 +268,20 @@
 </div>
 
 <div class="stats-row">
-  <div class="stat-card c1">
+  <div class="stat-card">
     <span class="num">14</span>
-    <span class="lbl">Projects</span>
+    <span class="lbl">Total Projects</span>
+    <span class="sub">Portfolio size</span>
   </div>
-  <div class="stat-card c2">
-    <span class="num">438</span>
-    <span class="lbl">Total volume</span>
+  <div class="stat-card">
+    <span class="num" id="kpiVolume">—</span>
+    <span class="lbl">Total Credit Volume</span>
+    <span class="sub">Portfolio scale</span>
   </div>
-  <div class="stat-card c3">
-    <span class="num">71</span>
-    <span class="lbl">Avg. rating</span>
-  </div>
-  <div class="stat-card c4">
-    <span class="num">3</span>
-    <span class="lbl">Flagged this week</span>
+  <div class="stat-card attention">
+    <span class="num" id="kpiPending">—</span>
+    <span class="lbl">Pending / Unrated</span>
+    <span class="sub">Requires assessment follow-up</span>
   </div>
 </div>
 
@@ -415,6 +406,20 @@ function render(rows) {
   `).join("");
 }
 render(projects);
+
+// KPI: Total Credit Volume (normalise mixed formats to tCO2e)
+function parseVolume(v) {
+  const s = String(v).replace(/,/g, '').replace(/tCO2e/gi, '').trim();
+  if (/kt$/i.test(s)) return parseFloat(s) * 1000;
+  return parseFloat(s) || 0;
+}
+const totalVol = projects.reduce((sum, p) => sum + parseVolume(p.volume), 0);
+document.getElementById("kpiVolume").textContent =
+  (totalVol / 1000).toFixed(1).replace(/\.0$/, '') + 'k tCO₂e';
+
+// KPI: Pending / Unrated
+const pendingCount = projects.filter(p => p.rating === null || p.rating === "pending").length;
+document.getElementById("kpiPending").textContent = pendingCount;
 
 // Sorting — only wired up for a couple of columns
 document.querySelectorAll("th[data-col]").forEach(th => {
