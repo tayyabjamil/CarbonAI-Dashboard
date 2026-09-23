@@ -42,20 +42,23 @@ function getVolumeByRegistry() {
 }
 
 
+// Counts how many projects fall into each risk band (low / medium / high / unrated).
+// Returns rows ready for display — each row has a label, count, colour, and a pct
+// relative to the largest band (so the biggest band always shows at 100%).
 function getRatingDistribution() {
   const counts = { low: 0, medium: 0, high: 0, unrated: 0 }
-  projects.forEach(p => { counts[ratingBand(p.rating)]++ })
+  projects.forEach(p => { counts[ratingBand(p.rating)]++ })  // bucket each project by its band
   const rows = [
     { label: 'Low risk',    count: counts.low,     color: T.teal  },
     { label: 'Medium risk', count: counts.medium,  color: T.amber },
     { label: 'High risk',   count: counts.high,    color: T.coral },
     { label: 'Unrated',     count: counts.unrated, color: T.muted },
-  ].filter(r => r.count > 0)
+  ].filter(r => r.count > 0)  // drop bands with no projects so empty rows don't show
   const max = Math.max(...rows.map(r => r.count))
   return rows.map(r => ({
     label: r.label,
     count: r.count,
-    pct:   +(r.count / max * 100).toFixed(1),
+    pct:   +(r.count / max * 100).toFixed(1),  // percentage for bar width
     val:   `${r.count} project${r.count !== 1 ? 's' : ''}`,
     color: r.color,
   }))

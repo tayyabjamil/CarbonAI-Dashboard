@@ -1,5 +1,5 @@
-import React from 'react'
-import { ratingBand } from '../utils/parse'
+import React, { useState } from 'react'
+import { ratingBand, sortProjects } from '../utils/parse'
 import { projects as allProjects } from '../data/projects'
 
 const COLS = [
@@ -8,11 +8,21 @@ const COLS = [
   { key: 'type',     label: 'Type'     },
   { key: 'country',  label: 'Country'  },
   { key: 'registry', label: 'Registry' },
-  { key: 'vintage',  label: 'Vintage'  },
-  { key: 'volume',   label: 'Volume'   },
-  { key: 'price',    label: 'Price'    },
+  { key: 'vintage',  label: 'Vintage',  sortable: true },
+  { key: 'volume',   label: 'Volume',   sortable: true },
+  { key: 'price',    label: 'Price',    sortable: true },
   { key: 'updated',  label: 'Updated'  },
 ]
+
+function SortIcon({ col, sortCol, sortDir }) {
+  const active = sortCol === col
+  return (
+    <span className="sort-icons">
+      <span className={`sort-arrow${active && sortDir === 1 ? ' active' : ''}`}>▲</span>
+      <span className={`sort-arrow${active && sortDir === -1 ? ' active' : ''}`}>▼</span>
+    </span>
+  )
+}
 
 function RatingBadge({ rating }) {
   if (rating === null)      return <span className="badge badge-unrated">Unrated</span>
@@ -23,13 +33,24 @@ function RatingBadge({ rating }) {
 }
 
 export default function ProjectTable({ projects, selectedId, setSelectedId }) {
+  const [sortCol, setSortCol] = useState(null)
+  const [sortDir, setSortDir] = useState(1)
+
   function toggleRow(id) {
     setSelectedId(prev => prev === id ? null : id)
   }
 
-  const sorted = [...projects].sort((a, b) =>
-    new Date(b.updated) - new Date(a.updated)
-  )
+  function handleSort(key) {
+    if (sortCol === key) {
+      setSortDir(d => d * -1)
+    } else {
+      setSortCol(key)
+      setSortDir(1)
+    }
+  }
+
+  const byUpdated = [...projects].sort((a, b) => new Date(b.updated) - new Date(a.updated))
+  const sorted = sortCol ? sortProjects(byUpdated, sortCol, sortDir) : byUpdated
 
   return (
     <div className="table-section">
@@ -41,7 +62,14 @@ export default function ProjectTable({ projects, selectedId, setSelectedId }) {
         <thead>
           <tr>
             {COLS.map(col => (
-              <th key={col.key}>{col.label}</th>
+              <th
+                key={col.key}
+                className={col.sortable ? 'sortable-col' : ''}
+                onClick={col.sortable ? () => handleSort(col.key) : undefined}
+              >
+                {col.label}
+                {col.sortable && <SortIcon col={col.key} sortCol={sortCol} sortDir={sortDir} />}
+              </th>
             ))}
           </tr>
         </thead>
